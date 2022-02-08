@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>webpack之基础打包优化 | MintureChan Blog</title><meta name="keywords" content="Vue"><meta name="author" content="Minture Chan"><meta name="copyright" content="Minture Chan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="webpack至今已经发展了5个版本，如果你还不会webpack，那么赶紧学习起来吧。webpack是web前端开发人员必学的一个知识点。本篇文章带大家一起看看webpack基础的打包优化。话不多说，上酸菜~~~~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack之基础打包优化">
+<meta property="og:url" content="https://minturechan96.github.io/2022/02/08/page/Basic-packaging-optimization-of-webpack/index.html">
+<meta property="og:site_name" content="MintureChan Blog">
+<meta property="og:description" content="webpack至今已经发展了5个版本，如果你还不会webpack，那么赶紧学习起来吧。webpack是web前端开发人员必学的一个知识点。本篇文章带大家一起看看webpack基础的打包优化。话不多说，上酸菜~~~~">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/15624671010743d29ddf8fb04b35a242~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?">
+<meta property="article:published_time" content="2022-02-08T09:29:05.000Z">
+<meta property="article:modified_time" content="2022-02-08T09:58:27.056Z">
+<meta property="article:author" content="Minture Chan">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/15624671010743d29ddf8fb04b35a242~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?"><link rel="shortcut icon" href="/img/blog.ico"><link rel="canonical" href="https://minturechan96.github.io/2022/02/08/page/Basic-packaging-optimization-of-webpack/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Minture Chan","link":"链接: ","source":"来源: MintureChan Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-right"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'webpack之基础打包优化',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-02-08 17:58:27'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s2.ax1x.com/2019/11/27/Q9XStf.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时光机</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/playlist/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> books</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/15624671010743d29ddf8fb04b35a242~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">MintureChan Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时光机</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/playlist/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> books</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">webpack之基础打包优化</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-08T09:29:05.000Z" title="发表于 2022-02-08 17:29:05">2022-02-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-08T09:58:27.056Z" title="更新于 2022-02-08 17:58:27">2022-02-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Vue/">Vue</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="webpack之基础打包优化"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>webpack</code>至今已经发展了5个版本，如果你还不会<code>webpack</code>，那么赶紧学习起来吧。<code>webpack</code>是web前端开发人员必学的一个知识点。本篇文章带大家一起看看<code>webpack</code>基础的打包优化。话不多说，上酸菜<del>~</del></p>
+<h2 id="优化loader"><a href="#优化loader" class="headerlink" title="优化loader"></a>优化loader</h2><p>在脚手架项目中,想必各位开发人员都会用到预处理的<code>css</code>。比如<code>sass、stylus、less</code>这些预处理语言。我们知道使用这些预处理<code>css</code>必须要在<code>webpack</code>中配置相应的<code>loader</code>。</p>
+<p>当我们配置过多的<code>loader</code>时,各<code>loader</code>之间必定会转换出大量的代码,这些代码会导致项目在启动和打包时变得非常慢,这个时候就需要我们去进行<code>loader</code>的优化了。在<code>loader</code>的相关的配置中,我们可以排除掉第三方包中的文件,减少<code>loader</code>代码转换的范围。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            test: <span class="regexp">/\.css$/</span>, </span><br><span class="line">            loader: [<span class="string">&#x27;style-loader&#x27;</span>, <span class="string">&#x27;css-loader&#x27;</span>],</span><br><span class="line">            include: [resolve(<span class="string">&#x27;src&#x27;</span>)],<span class="comment">// 只在src文件夹下查找</span></span><br><span class="line">            <span class="comment">// 不去查找的文件夹路径，node_modules下的代码是编译过得，没必要再去处理一遍</span></span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span> </span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">``</span><span class="string">``</span></span><br><span class="line">## 压缩代码</span><br><span class="line">在<span class="string">`webpack`</span>中,我们可以使用<span class="string">`UglifyjsWebpackPlugin`</span>这个插件来压缩 js 和css的代码,从而减小项目打包的体积,提升打包速率。</span><br><span class="line"></span><br><span class="line">**注意：在开发环境我们不需要使用这个插件~**</span><br><span class="line"><span class="string">``</span><span class="string">`javascript</span></span><br><span class="line"><span class="string">//安装插件</span></span><br><span class="line"><span class="string">npm install uglifyjs-webpack-plugin --save-dev</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">//在 vue.config.js中</span></span><br><span class="line"><span class="string">/** 引入uglifyjs-webpack-plugin */</span></span><br><span class="line"><span class="string">const UglifyJsPlugin = require(&#x27;uglifyjs-webpack-plugin&#x27;); </span></span><br><span class="line"><span class="string">/** 全局变量，当前环境 */ </span></span><br><span class="line"><span class="string">const env = process.env.NODE_ENV; </span></span><br><span class="line"><span class="string">module.exports = &#123; </span></span><br><span class="line"><span class="string">... </span></span><br><span class="line"><span class="string">configureWebpack: config =&gt; &#123;</span></span><br><span class="line"><span class="string">  if (env === &quot;production&quot;) &#123;</span></span><br><span class="line"><span class="string">    config.optimization.minimizer.push(</span></span><br><span class="line"><span class="string">        new UglifyJsPlugin(&#123;</span></span><br><span class="line"><span class="string">          //测试匹配压缩的文件</span></span><br><span class="line"><span class="string">          test: /.js(?.*)?$/i,</span></span><br><span class="line"><span class="string">          //要被压缩的文件</span></span><br><span class="line"><span class="string">          include: //includes/,</span></span><br><span class="line"><span class="string">          //是否开启文件缓存</span></span><br><span class="line"><span class="string">          cache: true,</span></span><br><span class="line"><span class="string">          //是否开启多进程并行压缩</span></span><br><span class="line"><span class="string">          paralleL: true,</span></span><br><span class="line"><span class="string">          // 使用uglifyOptions移除掉生产环境中的console</span></span><br><span class="line"><span class="string">          uglifyOptions: &#123;</span></span><br><span class="line"><span class="string">            warnings: false,</span></span><br><span class="line"><span class="string">            compress: &#123;drop_console: true, drop_debugger: true, pure_funcs: [&#x27;console.log&#x27;]&#125;</span></span><br><span class="line"><span class="string">          &#125;</span></span><br><span class="line"><span class="string">        &#125;))</span></span><br><span class="line"><span class="string">  &#125;&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+<p><code>uglifyjs-webpack-plugin</code>这个插件还有很多的配置项 具体可以参考<a target="_blank" rel="noopener" href="https://webpack.docschina.org/plugins/uglifyjs-webpack-plugin/">uglifyjs-webpack-plugin</a></p>
+<p><strong>注意开启<code>parallel</code>多进程压缩对项目打包速度的提升很有帮助</strong></p>
+<h3 id="gzip压缩"><a href="#gzip压缩" class="headerlink" title="gzip压缩"></a>gzip压缩</h3><p>除了压缩 <code>js</code>和<code>css</code>,我们还可以压缩<code>webpack</code>打包之后的文件。</p>
+<p><strong>开启<code>gzip</code>压缩后<code>webpack</code>生成的<code>js</code>文件的体积将缩小原来的30%以上。</strong></p>
+<p>要开启<code>gzip</code>压缩 我们也需要用到一个插件<code>compression-webpack-plugin</code> 并且我们还需要保证服务端和客户端都支持<code>gzip</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//安装插件</span></span><br><span class="line">npm install compression-webpack-plugin --save-dev</span><br><span class="line"></span><br><span class="line"><span class="comment">//在 vue.config.js中</span></span><br><span class="line"><span class="comment">/** 引入compression-webpack-plugin */</span></span><br><span class="line"><span class="keyword">const</span> CompressionWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;compression-webpack-plugin&#x27;</span>); </span><br><span class="line"><span class="keyword">const</span> productionGzipExtensions = <span class="regexp">/.(js|css|json|txt|html|icon|svg)(?.*)$/i</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123; </span><br><span class="line">... </span><br><span class="line">configureWebpack: <span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (env === <span class="string">&quot;production&quot;</span>) &#123;</span><br><span class="line">    config.plugins.push(&#123;</span><br><span class="line">      <span class="keyword">new</span> CompressionWebpackPlugin(&#123;</span><br><span class="line">       filename: <span class="string">&#x27;[path].gz[query]&#x27;</span>,</span><br><span class="line">       algorithm: <span class="string">&#x27;gzip&#x27;</span>,</span><br><span class="line">       test: productionGzipExtensions,</span><br><span class="line">       threshold: <span class="number">10240</span>,</span><br><span class="line">       minRatio: <span class="number">0.8</span></span><br><span class="line">  &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><code>compression-webpack-plugin</code> 这个插件同样也有很多的配置项，具体参考<a target="_blank" rel="noopener" href="https://webpack.docschina.org/plugins/compression-webpack-plugin">compression-webpack-plugin</a></p>
+<h2 id="抽离公共依赖包"><a href="#抽离公共依赖包" class="headerlink" title="抽离公共依赖包"></a>抽离公共依赖包</h2><p>对于一些体积较大，不长更新的包,我们并不需要下载到项目中使用。我们可以选择使用cdn的方式去进行引入，当然最好还是将这些库放在自己的服务器下~ <code>webpack</code>允许我们在外部引入一些资源。</p>
+<p>在<code>webpack</code>的配置中有这样一个配置项 <code>externals</code>:</p>
+<blockquote>
+<p><strong>防止</strong>将某些 <code>import</code> 的包(package)<strong>打包</strong>到 <code>bundle</code> 中，而是在运行时(runtime)再去从外部获取这些<em>扩展依赖(external dependencies)</em> 。</p>
+</blockquote>
+<p>从外部加载扩展的依赖而不是在项目中获取。 显然，这肯定能减少项目大小,缩小打包体积。</p>
+<p>抽离公共依赖包我们也需要安装一个插件<code>html-webpack-plugin</code>。使用这个插件主要是将外部引入的cdn放到<code>index.html</code>中加载。</p>
+<p>如果你的webpack的版本大于4.0那么你无需安装，<code>webpack4.0</code>已经自带了该插件。本项目中的<code>webpack</code>的版本是4.2.15的因此无需安装</p>
+<p>下面和我一起看看该如何进行配置:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在 vue.config.js中</span></span><br><span class="line"><span class="keyword">const</span> baseUrl = <span class="string">&#x27;https://minturechan.oss-cn-shenzheng.aliyuncs.com/npm&#x27;</span></span><br><span class="line"><span class="keyword">const</span> cdn = &#123;</span><br><span class="line">  js: [<span class="string">`<span class="subst">$&#123;baseUrl&#125;</span>vue@2.6.11/dist/vue.min.js`</span>,</span><br><span class="line">    <span class="string">`<span class="subst">$&#123;baseUrl&#125;</span>vue-router@3.2.0/dist/vue-router.min.js`</span>,</span><br><span class="line">    <span class="string">`<span class="subst">$&#123;baseUrl&#125;</span>vuex@3.4.0/dist/vuex.min.js`</span>,</span><br><span class="line">    <span class="string">`<span class="subst">$&#123;baseUrl&#125;</span>view-design@4.0.0/dist/iview.min.js`</span>,</span><br><span class="line">    <span class="string">`<span class="subst">$&#123;baseUrl&#125;</span>jquery@3.4.1/dist/jquery.min.js`</span></span><br><span class="line">  ],</span><br><span class="line">  css: [<span class="string">`<span class="subst">$&#123;baseUrl&#125;</span>view-design@4.0.0/dist/styles/iview.css`</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports =&#123;</span><br><span class="line">chainWebpack: <span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line"><span class="comment">//config.plugin(&#x27;html&#x27;)这个表示获取 html-webpack-plugin这个插件~</span></span><br><span class="line">config.plugin(<span class="string">&#x27;html&#x27;</span>).tap(<span class="function"><span class="params">args</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (env === <span class="string">&quot;production&quot;</span>) &#123;</span><br><span class="line">    args[<span class="number">0</span>].cdn = cdn</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> args</span><br><span class="line">&#125;)</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>vue.config.js</code>中配置完成后 我们还需要在<code>public</code>文件夹下的<code>index.html</code>中引入</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width,initial-scale=1.0,user-scalable=no&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;Cache-Control&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-cache, no-store, must-revalidate&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;Pragma&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-cache&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;Expires&quot;</span> <span class="attr">content</span>=<span class="string">&quot;0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">href</span>=<span class="string">&quot;&lt;%= BASE_URL %&gt;zyd.ico&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>test<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%</span> <span class="attr">for</span> (<span class="attr">var</span> <span class="attr">i</span> <span class="attr">in</span></span></span><br><span class="line"><span class="tag">    <span class="attr">htmlWebpackPlugin.options.cdn</span>&amp;&amp;<span class="attr">htmlWebpackPlugin.options.cdn.css</span>) &#123; %&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;&lt;%= htmlWebpackPlugin.options.cdn.css[i] %&gt;&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">as</span>=<span class="string">&quot;style&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;&lt;%= htmlWebpackPlugin.options.cdn.css[i] %&gt;&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">%</span> <span class="attr">for</span> (<span class="attr">var</span> <span class="attr">i</span> <span class="attr">in</span> <span class="attr">htmlWebpackPlugin.options.cdn</span>&amp;&amp;<span class="attr">htmlWebpackPlugin.options.cdn.js</span>)&#123;</span></span><br><span class="line"><span class="tag">    %&gt;</span> <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;&lt;%= htmlWebpackPlugin.options.cdn.js[i] %&gt;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span> <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- built files will be auto injected --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在<code>index.html</code>中加上如下代码即可引入外部cdn资源~~</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p><code>webpack</code>还有非常多可以优化的地方，本文只是简单的说明了一些<code>webpack</code>基础的打包优化配置。</p>
+<p>文章若有不足之处，还请大家批评指出。</p>
+<p>感谢您观看此篇文章 希望能给个👍评论收藏三连！你的点赞就是我写作的动力。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Minture Chan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://minturechan96.github.io/2022/02/08/page/Basic-packaging-optimization-of-webpack/">https://minturechan96.github.io/2022/02/08/page/Basic-packaging-optimization-of-webpack/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://minturechan96.github.io" target="_blank">MintureChan Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Vue/">Vue</a></div><div class="post_share"><div class="social-share" data-image="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/15624671010743d29ddf8fb04b35a242~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?" data-sites="facebook,twitter,wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/weChatQcode.jpg" target="_blank"><img class="post-qr-code-img" src="/img/weChatQcode.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/aliPayQcode.jpg" target="_blank"><img class="post-qr-code-img" src="/img/aliPayQcode.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/02/07/page/Mobile%20terminal%20adaptation%20solution-2/"><img class="next-cover" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">移动端适配解决方案(二)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/10/15/page/seven-cross-domain-solutions/" title="七种常见的跨域解决方案"><img class="cover" src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dfb5cf53ab334ee19e74474add858466~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp?" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-15</div><div class="title">七种常见的跨域解决方案</div></div></a></div><div><a href="/2020/11/02/page/webpack4%20Config/" title="使用vue-cli4搭建项目及webpack打包配置(一)"><img class="cover" src="https://s1.ax1x.com/2020/11/02/BB7YtK.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-02</div><div class="title">使用vue-cli4搭建项目及webpack打包配置(一)</div></div></a></div><div><a href="/2021/02/07/page/webpack4%20Package%20Structure/" title="使用vue-cli4搭建项目及webpack打包配置(二)"><img class="cover" src="https://s1.ax1x.com/2020/11/02/BB7YtK.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-02-07</div><div class="title">使用vue-cli4搭建项目及webpack打包配置(二)</div></div></a></div><div><a href="/2021/04/29/page/wepack4DoConfig/" title="使用vue-cli4搭建项目及webpack打包配置(三)"><img class="cover" src="https://s1.ax1x.com/2020/11/02/BB7YtK.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-29</div><div class="title">使用vue-cli4搭建项目及webpack打包配置(三)</div></div></a></div><div><a href="/2022/01/24/page/Decorator-in-vue/" title="Vue中使用装饰器"><img class="cover" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6caf1fb0e98541ea817a660c60d46733~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-24</div><div class="title">Vue中使用装饰器</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s2.ax1x.com/2019/11/27/Q9XStf.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Minture Chan</div><div class="author-info__description">不忘初心,砥砺前行</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/MintureChan96/"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/MintureChan96" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:296893907@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">weChat:minture626 QQ: 727258152</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96loader"><span class="toc-number">2.</span> <span class="toc-text">优化loader</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gzip%E5%8E%8B%E7%BC%A9"><span class="toc-number">2.1.</span> <span class="toc-text">gzip压缩</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%BD%E7%A6%BB%E5%85%AC%E5%85%B1%E4%BE%9D%E8%B5%96%E5%8C%85"><span class="toc-number">3.</span> <span class="toc-text">抽离公共依赖包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-number">4.</span> <span class="toc-text">最后</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/08/page/Basic-packaging-optimization-of-webpack/" title="webpack之基础打包优化"><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/15624671010743d29ddf8fb04b35a242~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="webpack之基础打包优化"/></a><div class="content"><a class="title" href="/2022/02/08/page/Basic-packaging-optimization-of-webpack/" title="webpack之基础打包优化">webpack之基础打包优化</a><time datetime="2022-02-08T09:29:05.000Z" title="发表于 2022-02-08 17:29:05">2022-02-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/07/page/Mobile%20terminal%20adaptation%20solution-2/" title="移动端适配解决方案(二)"><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="移动端适配解决方案(二)"/></a><div class="content"><a class="title" href="/2022/02/07/page/Mobile%20terminal%20adaptation%20solution-2/" title="移动端适配解决方案(二)">移动端适配解决方案(二)</a><time datetime="2022-02-07T07:29:05.000Z" title="发表于 2022-02-07 15:29:05">2022-02-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/26/page/Mobile%20click-through%20solution/" title="移动端点击穿透、滚动穿透解决方案"><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="移动端点击穿透、滚动穿透解决方案"/></a><div class="content"><a class="title" href="/2022/01/26/page/Mobile%20click-through%20solution/" title="移动端点击穿透、滚动穿透解决方案">移动端点击穿透、滚动穿透解决方案</a><time datetime="2022-01-26T07:35:37.000Z" title="发表于 2022-01-26 15:35:37">2022-01-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/25/page/Mobile%20terminal%20adaptation%20solution/" title="移动端适配解决方案"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="移动端适配解决方案"/></a><div class="content"><a class="title" href="/2022/01/25/page/Mobile%20terminal%20adaptation%20solution/" title="移动端适配解决方案">移动端适配解决方案</a><time datetime="2022-01-25T10:35:37.000Z" title="发表于 2022-01-25 18:35:37">2022-01-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/24/page/Decorator-in-vue/" title="Vue中使用装饰器"><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6caf1fb0e98541ea817a660c60d46733~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue中使用装饰器"/></a><div class="content"><a class="title" href="/2022/01/24/page/Decorator-in-vue/" title="Vue中使用装饰器">Vue中使用装饰器</a><time datetime="2022-01-24T10:50:37.000Z" title="发表于 2022-01-24 18:50:37">2022-01-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://s1.ax1x.com/2020/11/03/BszG0f.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By Minture Chan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Welcome to my <a href="https://minturechan96.github.io/"> blog !</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
