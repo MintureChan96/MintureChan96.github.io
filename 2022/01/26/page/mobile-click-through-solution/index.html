@@ -1,0 +1,275 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>移动端点击穿透、滚动穿透解决方案 | MintureChan Blog</title><meta name="keywords" content="Javascript"><meta name="author" content="Minture Chan"><meta name="copyright" content="Minture Chan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前段时间开发了一个H5的活动专题页面,在这个H5专题页中有一个需求是点击按钮弹框显示活动详情。这个需求看似平平无奇，当中却蕴含着一些我们值得学习的知识点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动端点击穿透、滚动穿透解决方案">
+<meta property="og:url" content="https://minturechan96.github.io/2022/01/26/page/mobile-click-through-solution/index.html">
+<meta property="og:site_name" content="MintureChan Blog">
+<meta property="og:description" content="前段时间开发了一个H5的活动专题页面,在这个H5专题页中有一个需求是点击按钮弹框显示活动详情。这个需求看似平平无奇，当中却蕴含着一些我们值得学习的知识点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp">
+<meta property="article:published_time" content="2022-01-26T07:35:37.000Z">
+<meta property="article:modified_time" content="2022-01-27T06:28:03.233Z">
+<meta property="article:author" content="Minture Chan">
+<meta property="article:tag" content="Javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp"><link rel="shortcut icon" href="/img/blog.ico"><link rel="canonical" href="https://minturechan96.github.io/2022/01/26/page/mobile-click-through-solution/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/fontawesome-free@1.0.4/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Minture Chan","link":"链接: ","source":"来源: MintureChan Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-right"},
+  source: {
+    jQuery: 'https://unpkg.com/jquery@latest/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://unpkg.com/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://unpkg.com/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js',
+      css: 'https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '移动端点击穿透、滚动穿透解决方案',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-27 14:28:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s2.ax1x.com/2019/11/27/Q9XStf.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时光机</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/playlist/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> books</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">MintureChan Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时光机</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 更多</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/playlist/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> books</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">移动端点击穿透、滚动穿透解决方案</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-26T07:35:37.000Z" title="发表于 2022-01-26 15:35:37">2022-01-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-27T06:28:03.233Z" title="更新于 2022-01-27 14:28:03">2022-01-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Javascript/">Javascript</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="移动端点击穿透、滚动穿透解决方案"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前段时间开发了一个H5的活动专题页面,在这个H5专题页中有一个需求是点击按钮弹框显示活动详情。这个需求看似平平无奇。当中却蕴含着一些我们值得学习的知识点。<code>点击穿透与滑动穿透</code></p>
+<h2 id="什么是点击穿透、滑动穿透"><a href="#什么是点击穿透、滑动穿透" class="headerlink" title="什么是点击穿透、滑动穿透"></a>什么是点击穿透、滑动穿透</h2><p>在这之前，我们必须先了解下移动端300ms延迟触发。为了实现浏览器双击缩放效果，浏览器需要鉴别出用户是否点击了屏幕两次。</p>
+<p>由于移动端设备没有鼠标。因此用户的点击事件在移动端会被拆分为如下过程<code>touchstart</code> -&gt; <code>touchmove</code> -&gt; <code>touchend -&gt; click</code>  当用户点击屏幕时，浏览器会分别监听这几个事件。</p>
+<p>当touched事件触发之后。浏览器会在此做一个300ms延迟触发。这个300ms的延迟被用来鉴别用户是否双击了屏幕。</p>
+<p>也正是因为这个延迟,导致了移动端的点击穿透</p>
+<p>下面用一个例子来展示点击穿透:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//test.vue</span></span><br><span class="line">&lt;div v-show=<span class="string">&quot;showOverlay&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;overlay&quot;</span> &gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;rule-box&quot;</span>&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;form-box&quot;</span>&gt;</span><br><span class="line">      &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;form-box-title&quot;</span>&gt;&#123;&#123; title &#125;&#125;&lt;/div&gt;</span><br><span class="line">      &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;rules-box&quot;</span> v-html=<span class="string">&quot;filterRulesText&quot;</span>&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;img @click=<span class="string">&quot;showOverlay =false&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;close-btn&quot;</span> src=<span class="string">&quot;../images/close.png&quot;</span> alt=<span class="string">&quot;&quot;</span>&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123; </span><br><span class="line">  name:<span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">  props: &#123;</span><br><span class="line">    rulesText: &#123;</span><br><span class="line">      type: <span class="built_in">String</span>,</span><br><span class="line">      <span class="keyword">default</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">       &#125;,</span><br><span class="line">  <span class="function"><span class="title">data</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   <span class="keyword">return</span> &#123;</span><br><span class="line">     title:<span class="string">&#x27;查看活动详情&#x27;</span></span><br><span class="line">     showOverlay:<span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">computed: &#123;</span><br><span class="line">  <span class="function"><span class="title">filterRulesText</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> str = <span class="built_in">this</span>.rulesText</span><br><span class="line">    <span class="keyword">const</span> newStr = str.replace(<span class="regexp">/\r\n|\n|\r/g</span>, <span class="string">&#x27;&lt;br/&gt;&#x27;</span>)</span><br><span class="line">    <span class="comment">// console.log(newStr)</span></span><br><span class="line">    <span class="keyword">return</span> newStr</span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">   <span class="function"><span class="title">init</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.showOverlay = <span class="literal">true</span></span><br><span class="line">   &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//app.vue中</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;Button @click=<span class="string">&quot;$refs.openDialog.init()&quot;</span>&gt;点击查看活动详情&lt;/Button&gt;</span><br><span class="line">&lt;Test ref=<span class="string">&quot;openDialog&quot;</span>&gt;&lt;/Test&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> Test <span class="keyword">from</span> <span class="string">&#x27;@/components/Test&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line"> name:<span class="string">&#x27;app&#x27;</span>,</span><br><span class="line"> components:&#123;Test&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/76dbd4a610aa47fda075ac8a372ecf54~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p>
+<p>大致效果如上图:当我点击图中的<code>close</code>图片时,移动端整个屏幕的遮罩以及详情都会被隐藏掉,该组件也隐藏在了dom中。</p>
+<p>由于浏览器的300ms延迟导致本应该作用在test组件中的click事件被穿透到了父组件的app中。</p>
+<p>这就是点击穿透<del>~</del> 滑动传统与点击穿透是一样的原理。</p>
+<h2 id="点击穿透解决方法"><a href="#点击穿透解决方法" class="headerlink" title="点击穿透解决方法"></a>点击穿透解决方法</h2><ul>
+<li>阻止浏览器的默认事件 <code>e.preventDefault()</code><br> 在vue中使用<code>@click.stop</code>即可组件默认事件。 但并不是所有的浏览器都支持</li>
+<li> 禁止浏览器进行缩放也可以解决300ms延迟的问题。</li>
+<li> 增加弹框过渡动画</li>
+<li> 使用fastclick</li>
+</ul>
+<h2 id="滑动穿透解决方法"><a href="#滑动穿透解决方法" class="headerlink" title="滑动穿透解决方法"></a>滑动穿透解决方法</h2><p>H5项目内容较多时，我们会增加滚动条使得body当中的内容可以滑动。</p>
+<p>当用户点击查看详情时：如果详情的内容较少。那么我们的弹框里面的内容则不需要滑动</p>
+<p>当你滑动弹框以外的内容时你会发现body中的内容竟然滑动了。这也是300ms延迟造成的。此时的解决方案很简单<br>我们只需要在vue使用事件修饰符就可以。</p>
+<p>在遮罩层的<code>div</code>中添加<code>@touchmove.prevent</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div v-show&#x3D;&quot;showOverlay&quot; class&#x3D;&quot;overlay&quot;  @touchmove.prevent&gt;</span><br></pre></td></tr></table></figure>
+<p>当详情页的内容较多时。由于文字太多 我们需要用到滚动条。此时我们会给弹框详情加上<code>overflow:scroll</code> 添加后。你会发现 弹框中的滚动条失效了。 并不会滚动。</p>
+<p>之所以如此 是因为我们之前使用<code>@touchmove.prevent</code>阻止掉了body中的滚动条事件，但是该事件也同样作用到了弹框中。因此该方法不可用。 </p>
+<p>那么怎么解决呢？给body添加滚动隐藏的样式。当vue中showOverlay的值发生改变时修改body的样式:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//代码忽略。。。。</span></span><br><span class="line">watch:&#123;</span><br><span class="line">  <span class="function"><span class="title">showOverlay</span>(<span class="params">val</span>)</span>&#123;</span><br><span class="line">     <span class="built_in">this</span>.styleChange(val)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">  &#125;,</span><br><span class="line">methods:&#123;</span><br><span class="line"> <span class="function"><span class="title">styleChange</span>(<span class="params">val</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">let</span> body = <span class="built_in">document</span>.body</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//val 为true时 添加overflow为hidden</span></span><br><span class="line">  <span class="function"><span class="title">if</span>(<span class="params">val</span>)</span>&#123;</span><br><span class="line">      body.style.overflow = <span class="string">&#x27;hidden&#x27;</span></span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    body.style.overflow =<span class="string">&#x27;scroll&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就能解决掉滑动穿透的问题。  当然，如上代码你也可以封装成一个自定义指令<del>~</del></p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>文章若有不足之处，还请大家批评指出。</p>
+<p>感谢您观看此篇文章 希望能给个👍评论收藏三连！你的点赞就是我写作的动力。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Minture Chan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://minturechan96.github.io/2022/01/26/page/mobile-click-through-solution/">https://minturechan96.github.io/2022/01/26/page/mobile-click-through-solution/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://minturechan96.github.io" target="_blank">MintureChan Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Javascript/">Javascript</a></div><div class="post_share"><div class="social-share" data-image="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp" data-sites="facebook,twitter,wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/social-share.js/1.0.6/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.bootcdn.net/ajax/libs/social-share.js/1.0.6/js/share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/weChatQcode.jpg" target="_blank"><img class="post-qr-code-img" src="/img/weChatQcode.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/aliPayQcode.jpg" target="_blank"><img class="post-qr-code-img" src="/img/aliPayQcode.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/02/07/page/mobile-terminal-adaptation-solution-2/"><img class="prev-cover" src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">移动端适配解决方案(二)</div></div></a></div><div class="next-post pull-right"><a href="/2022/01/25/page/mobile-terminal-adaptation-solution/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">移动端适配解决方案</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/01/25/page/mobile-terminal-adaptation-solution/" title="移动端适配解决方案"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-25</div><div class="title">移动端适配解决方案</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s2.ax1x.com/2019/11/27/Q9XStf.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Minture Chan</div><div class="author-info__description">不忘初心,砥砺前行</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/MintureChan96/"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/MintureChan96" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:296893907@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">weChat:minture626 QQ: 727258152</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%82%B9%E5%87%BB%E7%A9%BF%E9%80%8F%E3%80%81%E6%BB%91%E5%8A%A8%E7%A9%BF%E9%80%8F"><span class="toc-number">2.</span> <span class="toc-text">什么是点击穿透、滑动穿透</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%82%B9%E5%87%BB%E7%A9%BF%E9%80%8F%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">点击穿透解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%A9%BF%E9%80%8F%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">滑动穿透解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-number">5.</span> <span class="toc-text">最后</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/24/page/implement-a-dynamic-table-using-iview/" title="使用iview Table生成动态日期表格"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用iview Table生成动态日期表格"/></a><div class="content"><a class="title" href="/2022/02/24/page/implement-a-dynamic-table-using-iview/" title="使用iview Table生成动态日期表格">使用iview Table生成动态日期表格</a><time datetime="2022-02-24T08:29:05.000Z" title="发表于 2022-02-24 16:29:05">2022-02-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/11/page/vue-router-mode/" title="详解vue-router中路由的二种模式"><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f4be21e651024af1b5283d0672f0bf21~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp?" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解vue-router中路由的二种模式"/></a><div class="content"><a class="title" href="/2022/02/11/page/vue-router-mode/" title="详解vue-router中路由的二种模式">详解vue-router中路由的二种模式</a><time datetime="2022-02-11T03:55:05.000Z" title="发表于 2022-02-11 11:55:05">2022-02-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/08/page/basic-packaging-optimization-of-webpack/" title="webpack之基础打包优化"><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/15624671010743d29ddf8fb04b35a242~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="webpack之基础打包优化"/></a><div class="content"><a class="title" href="/2022/02/08/page/basic-packaging-optimization-of-webpack/" title="webpack之基础打包优化">webpack之基础打包优化</a><time datetime="2022-02-08T09:29:05.000Z" title="发表于 2022-02-08 17:29:05">2022-02-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/07/page/mobile-terminal-adaptation-solution-2/" title="移动端适配解决方案(二)"><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="移动端适配解决方案(二)"/></a><div class="content"><a class="title" href="/2022/02/07/page/mobile-terminal-adaptation-solution-2/" title="移动端适配解决方案(二)">移动端适配解决方案(二)</a><time datetime="2022-02-07T07:29:05.000Z" title="发表于 2022-02-07 15:29:05">2022-02-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/26/page/mobile-click-through-solution/" title="移动端点击穿透、滚动穿透解决方案"><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448cac1d8498442290d7cf0fa5d7adec~tplv-k3u1fbpfcp-no-mark:480:480:0:0.awebp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="移动端点击穿透、滚动穿透解决方案"/></a><div class="content"><a class="title" href="/2022/01/26/page/mobile-click-through-solution/" title="移动端点击穿透、滚动穿透解决方案">移动端点击穿透、滚动穿透解决方案</a><time datetime="2022-01-26T07:35:37.000Z" title="发表于 2022-01-26 15:35:37">2022-01-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://s1.ax1x.com/2020/11/03/BszG0f.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2023 By Minture Chan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Welcome to my <a href="https://minturechan96.github.io/"> blog !</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://unpkg.com/medium-zoom@1.0.8/dist/medium-zoom.min.js"></script><script src="https://unpkg.com/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div><canvas class="fireworks" mobile="false"></canvas><script src="https://unpkg.com/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><script src="https://unpkg.com/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js"></script></div></body></html>
